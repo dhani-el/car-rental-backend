@@ -32,10 +32,11 @@ route.get("/car/:id", async function(req,res){
 });
 
 route.post("/brand", async function(req,res){
+    console.log(req.body);
     const data = await BRAND_DB.create({name:req.body?.name ?? "N/A",
                                         logo:req.body?.logo ?? "N/A"
     });
-    res.json(data)
+    res.send('data has been entered')
 });
 
 route.post("/car", async function(req,res){
@@ -44,7 +45,7 @@ route.post("/car", async function(req,res){
                      image:req.body?.image,
                      year:req.body?.year,
                      price:req.body?.price});
-    res.send("data was saved");
+    res.send('data has been entered')
 })
 
 
