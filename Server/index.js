@@ -9,6 +9,7 @@ const DataRoute = require("./Routes/dataRoute");
 
 mongoose.set('strictQuery', false);
 mongoose.connect(process.env.DATABASE_URL);
+
 const db = mongoose.connection
 db.once('open', function(){
     console.log("mongodb database is now online");
@@ -21,8 +22,6 @@ App.listen(port, function(){
 });
 
 process.on('SIGINT',function(){
-    mongoose.connection.close(function(){
-        console.log('database connection closed');
-        process.exit(0);
-    })
+    mongoose.connection.close();
+    process.exit(0);
 })
