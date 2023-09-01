@@ -15,5 +15,26 @@
     "passport-google-oidc": "^0.1.0",
     "passport-local": "^1.0.0",
     "sharp": "^0.32.5"
-  }
+  },
+  "name": "car-rental-backend",
+  "description": "",
+  "version": "1.0.0",
+  "main": "Server/index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node Server/index.js",
+    "dev": "nodemon Server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dhani-el/car-rental-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dhani-el/car-rental-backend/issues"
+  },
+  "homepage": "https://github.com/dhani-el/car-rental-backend#readme"
 }
