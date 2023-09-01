@@ -27,12 +27,11 @@ route.get("/cars/:brand", async function(req,res){
 });
 
 route.get("/car/:id", async function(req,res){
-    const data = await CAR_DB.findOne().where("id").equals(req.params.id);
+    const data = await CAR_DB.findOne().where("_id").equals(req.params.id);
     res.json(data);
 });
 
 route.post("/brand", async function(req,res){
-    console.log(req.body);
     const data = await BRAND_DB.create({name:req.body?.name ?? "N/A",
                                         logo:req.body?.logo ?? "N/A"
     });
@@ -40,7 +39,7 @@ route.post("/brand", async function(req,res){
 });
 
 route.post("/car", async function(req,res){
-    await DB.create({brand:req.body?.brand,
+    await  CAR_DB.create({brand:req.body?.brand,
                      name:req.body?.name,
                      image:req.body?.image,
                      year:req.body?.year,
