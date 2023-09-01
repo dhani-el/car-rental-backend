@@ -2,11 +2,14 @@ require('dotenv').config()
 const Express  = require("express");
 const App = Express();
 const mongoose = require("mongoose");
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3000;
 
-App.get('/',function(req,res){
-    res.send("data is coming")
-})
+const DataRoute = require("./Routes/dataRoute");
+
+
+
+
+App.use("/data/api",DataRoute);
 
 App.listen(port, function(){
     console.log("server online at port:", port);
