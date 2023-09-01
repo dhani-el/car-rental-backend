@@ -27,7 +27,7 @@ route.get("/cars/:brand", async function(req,res){
 });
 
 route.get("/car/:id", async function(req,res){
-    const data = await CAR_DB.find().where("id").equals(req.params.id);
+    const data = await CAR_DB.findOne().where("id").equals(req.params.id);
     res.json(data);
 });
 
