@@ -17,12 +17,12 @@ route.get("/brand/:brand", async function(req,res){
 });
 
 route.get("/cars/all", async function(req,res){
-    const data = await CAR_DB.find();
+    const data = await CAR_DB.find().select('-address -meters -featureDescription -featureIcon');
     res.json(data);
 });
 
 route.get("/cars/:brand", async function(req,res){
-    const data = await CAR_DB.find().where("brand").equals(req.params.brand);
+    const data = await CAR_DB.find().where("brand").equals(req.params.brand).select('-address -meters -featureDescription -featureIcon');
     res.json(data);
 });
 
