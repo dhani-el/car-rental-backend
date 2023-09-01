@@ -39,11 +39,17 @@ route.post("/brand", async function(req,res){
 });
 
 route.post("/car", async function(req,res){
+    console.log(req.body);
+    const body = req.body
     await  CAR_DB.create({brand:req.body?.brand,
-                     name:req.body?.name,
-                     image:req.body?.image,
-                     year:req.body?.year,
-                     price:req.body?.price});
+                     name:body?.name,
+                     image:body?.image,
+                     year:body?.year,
+                     price:body?.price,
+                     address:body?.address,
+                     meters:body.meters,
+                     featureIcon:body.featureIcon,
+                     featureDescription: body.featureDescription});
     res.send('data has been entered')
 })
 

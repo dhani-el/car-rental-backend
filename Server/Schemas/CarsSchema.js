@@ -1,7 +1,8 @@
 const mongoose  = require("mongoose");
 
 
-const dataSchema = new mongoose.Schema({
+
+const carSchema = new mongoose.Schema({
    brand:{
         type : String,
         required: true
@@ -21,8 +22,25 @@ const dataSchema = new mongoose.Schema({
     price:{
         type: String,
         required: true
+    },
+    address:{
+        type : String,
+        required: true,
+    },
+    meters:{
+        type: String,
+        required: true,
+    },
+    featureIcon:{
+        type:[String],
+        required:true
+    },
+    featureDescription:{
+        type:[String],
+        required:true
     }
 });
 
-const dataModel = new mongoose.model("DATA-MODEL", dataSchema);
-module.exports = dataModel;
+
+const carModel = new mongoose.model("DATA-MODEL", carSchema);
+module.exports = carModel;
