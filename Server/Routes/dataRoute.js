@@ -31,31 +31,29 @@ route.get("/car/:id", async function(req,res){
 });
 
 route.post("/brand", upload.single("image"), async function(req,res){
-    const name  = randomName();
-    const body = req.body
-    const buffer = req.file.buffer
-    const mimetype = req.file.mimetype
+    const logoName  = randomName();
+    const buffer = req.file.buffer;
+    const mimetype = req.file.mimetype;
     if(!buffer){
         console.log("no buffer");
     return res.send("no buffer")
 }
-    console.log("this is the name",name);
-    console.log("this is the body",body);
-    console.log("this is the buffer",buffer);
-    console.log("this is the mimetype",mimetype);
-    await toS3(name,buffer, mimetype);
-    await BRAND_DB.create({name:name ?? "N/A",
-                                        logo:req.body?.logo ?? "N/A"
+    await toS3(logoName,buffer, mimetype);
+    await BRAND_DB.create({name:req.body.name ?? "N/A",
+                            logo:logoName ?? "N/A"
     });
     res.send('data has been entered')
 });
 
-route.post("/car", async function(req,res){
-    console.log(req.body);
+route.post("/car", upload.single("image"), async function(req,res){
+    const name  = randomName();
+    const buffer = req.file.buffer;
+    const mimetype = req.file.mimetype;
+    await toS3(name,buffer, mimetype);
     const body = req.body
     await  CAR_DB.create({brand:req.body?.brand,
                      name:body?.name,
-                     image:body?.image,
+                     image:name,
                      year:body?.year,
                      price:body?.price,
                      address:body?.address,
@@ -65,8 +63,25 @@ route.post("/car", async function(req,res){
     res.send('data has been entered')
 })
 
+route.delete('/car/:carid/:carImage',async function(req,res){
+    await deleteFromS3(req.body.imageUrl);
+    await CAR_DB.deleteOne().where("_id").equals(req.body.id);
+    res.send("car deleted");
+})
 
+route.delete('/brand/:brandImage',async function(req,res){
+    console.log(req.params.brandImage);
+    await deleteFromS3(req.params.brandImage);
+    await BRAND_DB.deleteOne().where("name").equals(req.params.brandImage);
+    res.send("brand deleted");
+})
 
+route.delete('/car/:carImage',async function(req,res){
+    console.log(req.params.carImage);
+    await deleteFromS3(req.params.carImage);
+    await CAR_DB.deleteOne().where("image").equals(req.params.carImage);
+    res.send("brand deleted");
+})
 
 
 module.exports = route
