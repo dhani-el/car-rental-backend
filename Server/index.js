@@ -4,6 +4,7 @@ const App = Express();
 const mongoose = require("mongoose");
 const Parser = require("body-parser");
 const port = process.env.PORT || 3000;
+const Path = require("path");
 
 const DataRoute = require("./Routes/dataRoute");
 
@@ -20,6 +21,11 @@ db.once('open', function(){
 App.use(Parser.urlencoded({extended:false}));
 App.use(Parser.json());
 App.use("/data/api",DataRoute);
+App.use(Express.static(Path.join(__dirname, '../Frontend/car_rental/dist')));
+
+App.get("*",function(req,res){
+    res.sendFile(Path.join(__dirname, '../Frontend/car_rental/dist/index.html'));
+})
 
 App.listen(port, function(){
     console.log("server online at port:", port);
