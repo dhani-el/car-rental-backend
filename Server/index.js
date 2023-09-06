@@ -21,10 +21,10 @@ db.once('open', function(){
 App.use(Parser.urlencoded({extended:false}));
 App.use(Parser.json());
 App.use("/data/api",DataRoute);
-App.use(Express.static(Path.join(__dirname, '../Frontend/car_rental/dist')));
+App.use(Express.static(Path.join(__dirname, '../Frontend/car-rental/dist')));
 
 App.get("*",function(req,res){
-    res.sendFile(Path.join(__dirname, '../Frontend/car_rental/dist/index.html'));
+    res.sendFile(Path.join(__dirname, '../Frontend/car-rental/dist/index.html'));
 })
 
 App.listen(port, function(){
