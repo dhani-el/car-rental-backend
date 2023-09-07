@@ -8,29 +8,39 @@ const {upload,randomName,fromS3,deleteFromS3, toS3} = require('../Utils/ImageUti
 route.get("/brands", async function(req,res){
     const data = await BRAND_DB.find();
     for(const single of data ){
-            single.imageUrl  = fromS3(single.logo);
+            single.logo  = await fromS3(single.logo);
     }
+    console.log('inside brands endpoint');
+    console.log(data );
     res.json(data);
 });
 
 route.get("/brand/:brand", async function(req,res){
     const data = await BRAND_DB.findOne().where("name").equals(req.params.brand);
-    
+    data.logo = fromS3(data.logo);
     res.json(data);
 });
 
 route.get("/cars/all", async function(req,res){
     const data = await CAR_DB.find().select('-address -meters -featureDescription -featureIcon');
+    for(const info of data){
+        info.image = await fromS3(info.image);
+    }
+    console.log(data);
     res.json(data);
 });
 
 route.get("/cars/:brand", async function(req,res){
     const data = await CAR_DB.find().where("brand").equals(req.params.brand).select('-address -meters -featureDescription -featureIcon');
+    for(const info of data){
+        info.image = await fromS3(info.image)
+    }
     res.json(data);
 });
 
-route.get("/car/:id", async function(req,res){
-    const data = await CAR_DB.findOne().where("_id").equals(req.params.id);
+route.get("/car/:name", async function(req,res){
+    const data = await CAR_DB.findOne().where("name").equals(req.params.name);
+    data.image = await fromS3(data.image);
     res.json(data);
 });
 
@@ -67,9 +77,9 @@ route.post("/car", upload.single("image"), async function(req,res){
     res.send('data has been entered')
 })
 
-route.delete('/car/:carid/:carImage',async function(req,res){
-    await deleteFromS3(req.body.imageUrl);
-    await CAR_DB.deleteOne().where("_id").equals(req.body.id);
+route.delete('/car/:carid',async function(req,res){
+    // await deleteFromS3(req.body.imageUrl);
+    await CAR_DB.deleteOne().where("_id").equals(req.params.carid);
     res.send("car deleted");
 })
 
