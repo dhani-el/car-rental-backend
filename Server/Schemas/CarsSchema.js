@@ -38,7 +38,8 @@ const carSchema = new mongoose.Schema({
     featureDescription:{
         type:[String],
         required:true
-    }
+    },
+    
 });
 
 
